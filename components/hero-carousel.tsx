@@ -19,7 +19,7 @@ const firstCarouselItem = {
   image: '/images/hero-deck-0.webp', // Main image
   imageAvif: '/images/hero-deck-0.avif', // AVIF version for better compression
   imageSm: '/images/hero-deck-0-sm.webp', // Small version for mobile
-  imageSmAvif: '/images/hero-deck-0-sm.avif', // AVIF small version for mobile
+  imageSmAvif: '/images/hero-deck-0-sm.webp', // AVIF small version for mobile
   title: 'Custom Deck Design & Construction',
   subtitle: 'Transform Your Outdoor Living Space with Expert Craftsmanship',
   alt: 'Beautiful custom deck with outdoor furniture',

@@ -194,16 +194,16 @@ export default async function Home() {
                 <source
                   type="image/avif"
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 85vw, (max-width: 1024px) 50vw, 600px"
-                  srcSet="/images/hero-deck41-400.avif 400w, /images/hero-deck41-600.avif 600w"
+                  srcSet="/images/hero-deck-0-sm.avif 640w, /images/hero-deck-0.avif 1920w"
                 />
                 {/* WebP fallback */}
                 <source
                   type="image/webp"
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 85vw, (max-width: 1024px) 50vw, 600px"
-                  srcSet="/images/hero-deck41-400.webp 400w, /images/hero-deck41-600.webp 600w"
+                  srcSet="/images/hero-deck-0-sm.webp 640w, /images/hero-deck-0.webp 1920w"
                 />
                 <Image
-                  src='/images/hero-deck41-600.webp'
+                  src='/images/hero-deck-0.webp'
                   alt='Custom deck design by VM Power Deck featuring a multi-level structure with built-in seating and ambient lighting'
                   width={600}
                   height={400}
