@@ -59,9 +59,7 @@ export default function ContactPage() {
             <CardContent className='space-y-4'>
               <div className='flex items-center'>
                 <MapPin className='h-5 w-5 mr-2 text-primary' />
-                <span>123 Palmer Park Mall
-S 680 Easton PA 18045 
-</span>
+                <span>123 Palmer Park Mall S 680 Easton PA 18045</span>
               </div>
               <div className='flex items-center'>
                 <Phone className='h-5 w-5 mr-2 text-primary' />
@@ -86,7 +84,7 @@ S 680 Easton PA 18045
               <CardDescription>Find us on the map</CardDescription>
             </CardHeader>
             <CardContent>
-              <MapWrapper latitude={40.6584} longitude={-75.4702} />
+              <MapWrapper latitude={40.6789} longitude={-75.2205} />
             </CardContent>
           </Card>
         </div>
@@ -109,16 +107,16 @@ S 680 Easton PA 18045
           },
           address: {
             '@type': 'PostalAddress',
-            streetAddress: '1280 Woodmont lane',
-            addressLocality: 'Catasauqua',
+            streetAddress: '123 Palmer Park Mall S 680',
+            addressLocality: 'Easton',
             addressRegion: 'PA',
-            postalCode: '18032',
+            postalCode: '18045',
             addressCountry: 'US',
           },
           geo: {
             '@type': 'GeoCoordinates',
-            latitude: 40.6584,
-            longitude: -75.4702,
+            latitude: 40.6789,
+            longitude: -75.2205,
           },
           openingHoursSpecification: [
             {
