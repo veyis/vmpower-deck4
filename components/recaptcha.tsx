@@ -52,9 +52,16 @@ export function ReCaptcha({ onChange }: ReCaptchaProps) {
   return (
     <>
       <Script
-        src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-        onLoad={() => setIsScriptLoaded(true)}
-        strategy="afterInteractive"
+        id="recaptcha-script"
+        src="https://www.google.com/recaptcha/enterprise.js"
+        strategy="lazyOnload"
+        onLoad={() => {
+          if (window.grecaptcha?.enterprise?.ready) {
+            window.grecaptcha.enterprise.ready(() => {
+              setIsScriptLoaded(true)
+            })
+          }
+        }}
       />
       <div className="recaptcha-container">
         <button
