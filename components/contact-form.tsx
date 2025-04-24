@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
+import { ReCaptcha } from '@/components/recaptcha'
 
 export function ContactForm() {
   const [name, setName] = useState('')
@@ -27,11 +28,22 @@ export function ContactForm() {
   const [preferredContact, setPreferredContact] = useState('email')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
   const { toast } = useToast()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+
+    if (!recaptchaToken) {
+      toast({
+        title: 'Error',
+        description: 'Please complete the reCAPTCHA verification',
+        variant: 'destructive',
+      })
+      setIsSubmitting(false)
+      return
+    }
 
     try {
       const response = await fetch('/api/contact', {
@@ -43,9 +55,11 @@ export function ContactForm() {
           name,
           email,
           phone,
+          address,
           message,
           projectType,
           preferredContact,
+          recaptchaToken,
         }),
       })
 
@@ -59,9 +73,11 @@ export function ContactForm() {
         setName('')
         setEmail('')
         setPhone('')
+        setAddress('')
         setMessage('')
         setProjectType('')
         setPreferredContact('email')
+        setRecaptchaToken(null)
       } else {
         throw new Error('Failed to send message')
       }
@@ -162,6 +178,7 @@ export function ContactForm() {
           </div>
         </RadioGroup>
       </div>
+      <ReCaptcha onChange={setRecaptchaToken} />
       {successMessage && <p>{successMessage}</p>}
       <Button type='submit' className='w-full' disabled={isSubmitting}>
         {isSubmitting ? (
