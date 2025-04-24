@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Loader2 } from 'lucide-react'
 
 interface ReCaptchaProps {
   onChange: (token: string | null) => void
@@ -9,37 +10,71 @@ interface ReCaptchaProps {
 declare global {
   interface Window {
     grecaptcha: {
-      render: (element: HTMLElement, options: { sitekey: string; callback: (token: string) => void }) => void
-      reset: () => void
+      enterprise: {
+        execute: (siteKey: string, options: { action: string }) => Promise<string>
+        ready: (callback: () => void) => void
+      }
     }
   }
 }
 
 export function ReCaptcha({ onChange }: ReCaptchaProps) {
-  const recaptchaRef = useRef<HTMLDivElement>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const isMounted = useRef(false)
 
   useEffect(() => {
-    const script = document.createElement('script')
-    script.src = `https://www.google.com/recaptcha/api.js?render=explicit`
-    script.async = true
-    script.defer = true
-    document.body.appendChild(script)
-
-    script.onload = () => {
-      if (recaptchaRef.current) {
-        window.grecaptcha.render(recaptchaRef.current, {
-          sitekey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '',
-          callback: (token: string) => {
-            onChange(token)
-          },
-        })
-      }
-    }
-
+    isMounted.current = true
     return () => {
-      document.body.removeChild(script)
+      isMounted.current = false
     }
-  }, [onChange])
+  }, [])
 
-  return <div ref={recaptchaRef} className="flex justify-center my-4" />
+  const executeRecaptcha = async () => {
+    try {
+      if (typeof window.grecaptcha === 'undefined') {
+        console.error('reCAPTCHA is not loaded')
+        return null
+      }
+
+      const token = await window.grecaptcha.enterprise.execute(
+        '6Ld_lCMrAAAAACniFxMUhgxB5fEsXzXRhDdka1N_',
+        { action: 'SUBMIT' }
+      )
+      return token
+    } catch (error) {
+      console.error('Error executing reCAPTCHA:', error)
+      return null
+    }
+  }
+
+  return (
+    <div className="recaptcha-container">
+      <button
+        type="button"
+        onClick={async (e) => {
+          e.preventDefault()
+          setIsLoading(true)
+          try {
+            const token = await executeRecaptcha()
+            onChange(token)
+          } finally {
+            if (isMounted.current) {
+              setIsLoading(false)
+            }
+          }
+        }}
+        className="g-recaptcha inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled={isLoading}
+      >
+        {isLoading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Verifying...
+          </>
+        ) : (
+          'Verify you are human'
+        )}
+      </button>
+    </div>
+  )
 } 

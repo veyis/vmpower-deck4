@@ -15,7 +15,6 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
-import { cn } from '@/lib/utils'
 import { useState } from 'react'
 
 const menuItems = [
@@ -134,9 +133,8 @@ export function Navbar() {
                         <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]'>
                           {item.submenu.map((subItem) => (
                             <li key={subItem.name}>
-                              <NavigationMenuLink asChild>
-                                <Link
-                                  href={subItem.href}
+                              <NavigationMenuLink href={subItem.href}>
+                                <div
                                   className='block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground min-h-[44px] flex flex-col justify-center'
                                   onClick={() => {
                                     setIsOpen(false);
@@ -149,7 +147,7 @@ export function Navbar() {
                                   <p className='line-clamp-2 text-sm leading-snug text-muted-foreground'>
                                     {subItem.description}
                                   </p>
-                                </Link>
+                                </div>
                               </NavigationMenuLink>
                             </li>
                           ))}
@@ -157,8 +155,8 @@ export function Navbar() {
                       </NavigationMenuContent>
                     </>
                   ) : (
-                    <Link href={item.href} legacyBehavior passHref>
-                      <NavigationMenuLink
+                    <NavigationMenuLink href={item.href}>
+                      <div
                         className={navigationMenuTriggerStyle()}
                         onClick={() => {
                           setIsOpen(false);
@@ -166,8 +164,8 @@ export function Navbar() {
                         }}
                       >
                         {item.name}
-                      </NavigationMenuLink>
-                    </Link>
+                      </div>
+                    </NavigationMenuLink>
                   )}
                 </NavigationMenuItem>
               ))}
@@ -248,10 +246,7 @@ export function Navbar() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={cn(
-                      navigationMenuTriggerStyle(),
-                      'w-full justify-start min-h-[44px] flex items-center'
-                    )}
+                    className='flex items-center min-h-[44px] w-full p-2 hover:bg-accent hover:text-accent-foreground rounded-md'
                     onClick={() => setIsOpen(false)}
                   >
                     {item.name}

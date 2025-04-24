@@ -3,6 +3,7 @@ import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { WhatsAppButtonWrapper } from '@/components/whatsapp-button-wrapper'
 import type { Metadata } from 'next'
+import Script from 'next/script'
 
 import '@/styles/globals.css'
 
@@ -161,6 +162,10 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <WhatsAppButtonWrapper />
+        <Script
+          src="https://www.google.com/recaptcha/enterprise.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   )

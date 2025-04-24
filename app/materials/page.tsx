@@ -189,11 +189,9 @@ export default function MaterialsPage() {
           <p className='text-lg mt-2'>
             Contact us today for a free consultation!
           </p>
-          <Link href='/contact' legacyBehavior>
-            <a className='inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700'>
-              <Phone className='mr-2 h-4 w-4' /> Get a Free Quote{' '}
-              <ArrowRight className='ml-2 h-4 w-4' />
-            </a>
+          <Link href='/contact' className='inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700'>
+            <Phone className='mr-2 h-4 w-4' /> Get a Free Quote{' '}
+            <ArrowRight className='ml-2 h-4 w-4' />
           </Link>
         </div>
       </section>

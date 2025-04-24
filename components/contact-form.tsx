@@ -34,8 +34,10 @@ export function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    console.log('Form submission started')
 
     if (!recaptchaToken) {
+      console.log('No reCAPTCHA token')
       toast({
         title: 'Error',
         description: 'Please complete the reCAPTCHA verification',
@@ -46,6 +48,17 @@ export function ContactForm() {
     }
 
     try {
+      console.log('Sending form data:', {
+        name,
+        email,
+        phone,
+        address,
+        message,
+        projectType,
+        preferredContact,
+        hasRecaptchaToken: !!recaptchaToken,
+      })
+
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -63,11 +76,16 @@ export function ContactForm() {
         }),
       })
 
+      console.log('API response status:', response.status)
+      const data = await response.json()
+      console.log('API response data:', data)
+
       if (response.ok) {
         setSuccessMessage('Thank you! Your message has been sent successfully!')
         toast({
           title: 'Message Sent',
           description: "We'll get back to you as soon as possible.",
+          variant: 'default',
         })
         // Reset form fields
         setName('')
@@ -79,17 +97,17 @@ export function ContactForm() {
         setPreferredContact('email')
         setRecaptchaToken(null)
       } else {
-        throw new Error('Failed to send message')
+        throw new Error(data.error || 'Failed to send message')
       }
-    } catch {
+    } catch (error) {
+      console.error('Form submission error:', error)
       toast({
         title: 'Error',
-        description: 'Failed to send message. Please try again later.',
+        description: error instanceof Error ? error.message : 'Failed to send message. Please try again later.',
         variant: 'destructive',
       })
-    } finally {
-      setIsSubmitting(false)
     }
+    setIsSubmitting(false)
   }
 
   return (
@@ -178,8 +196,20 @@ export function ContactForm() {
           </div>
         </RadioGroup>
       </div>
-      <ReCaptcha onChange={setRecaptchaToken} />
-      {successMessage && <p>{successMessage}</p>}
+      <div className='space-y-2'>
+        <div className='flex items-center justify-center p-4 bg-muted/50 rounded-lg border border-muted'>
+          <div className='text-center'>
+            <p className='text-sm font-medium mb-2'>Security Check</p>
+            <p className='text-xs text-muted-foreground mb-3'>Please verify you are human</p>
+            <ReCaptcha onChange={setRecaptchaToken} />
+          </div>
+        </div>
+      </div>
+      {successMessage && (
+        <div className="bg-green-50 border border-green-200 text-green-800 rounded-md p-4 mb-4">
+          <p className="font-medium">{successMessage}</p>
+        </div>
+      )}
       <Button type='submit' className='w-full' disabled={isSubmitting}>
         {isSubmitting ? (
           'Sending...'

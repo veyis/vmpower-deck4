@@ -124,15 +124,13 @@ export function Footer() {
               <li className='flex items-center'>
                 <MapPin className='h-5 w-5 mr-2 text-primary' />
                 <span className='text-sm text-muted-foreground'>
-                  123 Palmer Park Mall S 680 Easton PA 18045
+                  123 Palmer Park Mall S 680<br />Easton, PA 18045
                 </span>
               </li>
               <li className='flex items-center'>
                 <Phone className='h-5 w-5 mr-2 text-primary' />
                 <span className='text-sm text-muted-foreground'>
-                  (484) 743 7332
-(484) 403 6218
-
+                  (484) 743-7332<br />(484) 403-6218
                 </span>
               </li>
               <li className='flex items-center'>

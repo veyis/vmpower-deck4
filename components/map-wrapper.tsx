@@ -1,6 +1,13 @@
 'use client'
 
-import LocationMap from '@/components/location-map'
+import dynamic from 'next/dynamic'
+
+const LocationMap = dynamic(() => import('@/components/location-map'), {
+  ssr: false,
+  loading: () => (
+    <div className="aspect-video relative rounded-md overflow-hidden bg-muted animate-pulse" />
+  ),
+})
 
 export default function MapWrapper({
   latitude,
