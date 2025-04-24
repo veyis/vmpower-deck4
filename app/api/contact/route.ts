@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 
 export async function POST(request: Request) {
-  const { name, email, phone, message, projectType, preferredContact } =
+  const { name, email, phone, address, message, projectType, preferredContact } =
     await request.json()
 
   console.log('MAIL_TO:', process.env.MAIL_TO)
@@ -23,6 +23,7 @@ export async function POST(request: Request) {
       Name: ${name}
       Email: ${email}
       Phone: ${phone}
+      Address: ${address}
       Project Type: ${projectType}
       Preferred Contact Method: ${preferredContact}
       Message: ${message}

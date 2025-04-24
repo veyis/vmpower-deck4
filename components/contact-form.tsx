@@ -21,6 +21,7 @@ export function ContactForm() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+  const [address, setAddress] = useState('')
   const [message, setMessage] = useState('')
   const [projectType, setProjectType] = useState('')
   const [preferredContact, setPreferredContact] = useState('email')
@@ -106,6 +107,16 @@ export function ContactForm() {
           placeholder='(123) 456-7890'
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+        />
+      </div>
+      <div className='space-y-2'>
+        <Label htmlFor='address'>Address</Label>
+        <Input
+          id='address'
+          placeholder='123 Main St, Anytown, USA'
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          required
         />
       </div>
       <div className='space-y-2'>
